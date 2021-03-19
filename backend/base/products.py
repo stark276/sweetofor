@@ -78,5 +78,3 @@ products = [
     'numReviews': 12,
   },
 ]
-
-
