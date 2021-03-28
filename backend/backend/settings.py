@@ -88,7 +88,7 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
 
-# SECRET_KEY = 'eni&0wmg-#-e+s$8yj&u1&+)@i+6a^8-&xy@ztxlyb_3ba=^+g'
+SECRET_KEY = 'eni&0wmg-#-e+s$8yj&u1&+)@i+6a^8-&xy@ztxlyb_3ba=^+g'
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
