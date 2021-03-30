@@ -9,6 +9,7 @@ from .models import Product
 from .serializers import ProductSerializer, UserSerializer, UserSerializerWithToken
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
+from django.contrib.auth.hashers import make_password
 # from rest_framework_simplejwt.views import (TokenObtainPairView)
 
 
@@ -28,14 +29,22 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
 
-# Create your views here.
-@api_view(['GET'])
+# REGISTER THE USER
 
-def getRoutes(request):
-  routes = [
-    "sefsef"
-  ]
-  return Response(routes)
+@api_view(['POST'])
+def registerUser(request):
+  data = request.data
+
+  user = User.objects.create(
+    first_name=data['name'],
+    username=data['email'],
+    email = data['email'],
+    password = make_password(data['password'])
+  )
+  serializer = UserSerializerWithToken(user, many = False)
+  return Response(serializer.data) 
+
+
 
 #GETTING USER DATA
 @api_view(['GET'])
@@ -43,7 +52,7 @@ def getRoutes(request):
 def getUserProfile(request):
   user = request.user
   serializer = UserSerializer(user, many=False)
-  return Response(serializer.data)
+  return Response(serializer.data) 
 
 
 #GETTING USERS
