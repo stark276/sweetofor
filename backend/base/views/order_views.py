@@ -3,9 +3,12 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
+
 from base.models import Product, Order, OrderItem, ShippingAddress
 from base.serializers import ProductSerializer, OrderSerializer
+
 from rest_framework import status
+from datetime import datetime
 
 
 
@@ -32,12 +35,13 @@ def addOrderItems(request):
     #(2) create shipping address
 
     shipping = ShippingAddress.objects.create(
-      order = order,
-      address = data['ShippingAddress']['address'],
-      city = data['ShippingAddress']['city'],
-      postalCode = data['ShippingAddress']['postalCode'],
-      country = data['ShippingAddress']['country'],
-    )
+
+      order=order,
+      address=data['shippingAddress']['address'],
+      city=data['shippingAddress']['city'],
+      postalCode=data['shippingAddress']['postalCode'],
+      country=data['shippingAddress']['country'],
+        )
     #(3) create order items and set order to orderItems relationship
 
     for i in orderItems:
@@ -59,5 +63,5 @@ def addOrderItems(request):
       product.save()
 
 
-  serializer = OrderSerializer(order, many =True)
+    serializer = OrderSerializer(order, many = False)
   return Response(serializer.data)
