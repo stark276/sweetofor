@@ -79,8 +79,6 @@ export const getOrderDetails = (id) => async (dispatch, getState) => {
       payload:data
     })
 
-    localStorage.removeItem('cartItems')
-
   }catch(error) {
     dispatch({
        type: ORDER_DETAILS_FAIL,
