@@ -19,7 +19,7 @@ function HomeScreen() {
 
  return (
   <div>
-   <h1>latest one</h1>
+   <h1>Menu</h1>
 
    {loading ? <Loader />
    : error ? <Message variant='danger'>{error}</Message>
