@@ -7,16 +7,29 @@ import Message from '../components/Message'
 import { listUsers } from '../actions/userActions'
 
 
-function UserListScreen() {
+function UserListScreen({history}) {
   const dispatch = useDispatch();
 
   const userList = useSelector(state => state.userList)
-
   const {loading, error, users} = userList
 
+  const userLogin = useSelector(state => state.userLogin)
+  const {userInfo} = userLogin
+
   useEffect(() =>  {
+    if(userInfo && userInfo.isAdmin){
+      dispatch(listUsers())
+
+    }else {
+      history.push('/login')
+    }
+
     dispatch(listUsers())
-  }, [dispatch])
+  }, [dispatch, history])
+
+  const deleteHandler = (id) => {
+    console.log("delete: ", id)
+  }
   return (
     <div>
       <h1>
@@ -28,13 +41,15 @@ function UserListScreen() {
       :error
       ?(<Message variant = 'danger'> {error}</Message>)
       :(
-        <Table bordered hover responsive className="table-sm">
+        <Table  hover responsive className="table-sm">
           <thred>
-                <th>ID</th>
-                <th>NAME</th>
-                <th>EMAIL</th>
-                <th>ADMIN</th>
-                <th></th>
+            <tr>
+              <th> ID </th>
+              <th> NAME </th>
+              <th> EMAIL </th>
+              <th> ADMIN </th>
+              <th></th>
+            </tr>
           </thred>
 
           <tbody>
@@ -47,6 +62,19 @@ function UserListScreen() {
                   <i className='fas fa-check' style={{color: 'green'}}></i>
                 ) : (<i className='fas fa-check' style={{color: 'red'}}></i>)
                 }</td>
+                <td>
+                  <LinkContainer to={`admin/user/${user._id}`}> 
+                  <Button variant='light' className='bnt-sm'>
+                    <i className='fas fa-edit'></i>
+                  </Button>
+                  </LinkContainer>
+
+                  <Button variant='danger' className='bnt-sm' onClick={() => deleteHandler(user._id)}>
+                    <i className='fas fa-trash'></i>
+                  </Button>
+
+
+                </td>
 
               </tr>
             ))}
