@@ -10,6 +10,10 @@ urlpatterns = [
   path('profile/', views.getUserProfile, name = 'users-profile'),
   path('profile/update/', views.updateUserProfile, name = 'users-profile-update'),
   path('', views.getUsers, name = 'users-profile'),
+
+  path('<str:pk>/', views.getUserById, name = 'user'),
+
+  path('update/<str:pk>/', views.updateUser, name = 'users-update'),
   
   path('delete/<str:pk>/', views.deleteUser, name = 'users-delete'),
 ]
